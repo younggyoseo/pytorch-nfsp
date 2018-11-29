@@ -81,7 +81,7 @@ def load_model(models, policies, args):
             fname += "{}-step-".format(args.multi_step)
         if args.dueling:
             fname += "dueling-"
-        fname += "dqn.pth"
+        fname += "dqn-{}.pth".format(args.save_model)
         fname = os.path.join("models", fname)
 
     # Hack to load models saved with GPU

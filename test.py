@@ -33,7 +33,7 @@ def test(env, args):
                 env.render()
                 sleep(0.01)
 
-            # When evaluating model, Agents follow average strategy
+            # Agents follow average strategy
             p1_action = p1_policy.act(torch.FloatTensor(p1_state).to(args.device))
             p2_action = p2_policy.act(torch.FloatTensor(p2_state).to(args.device))
 
