@@ -7,7 +7,7 @@ Imperfect-Information Games](https://arxiv.org/abs/1603.01121) (Heinrich and Sil
 ```
 pytorch 0.4
 gym
-laser_tag
+lasertag
 ```
 
 # Examples

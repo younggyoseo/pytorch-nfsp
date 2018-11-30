@@ -57,7 +57,7 @@ def get_args():
     # Optimization Arguments
     parser.add_argument('--lr', type=float, default=1e-4,
                         help='Learning rate')
-    parser.add_argument('--max-episode-length', type=int, default=100000,
+    parser.add_argument('--max-episode-length', type=int, default=1000,
                         help='Maximum length of episode to prevent from non-action')
     parser.add_argument('--eps-start', type=float, default=1.0,
                         help='Start value of epsilon')

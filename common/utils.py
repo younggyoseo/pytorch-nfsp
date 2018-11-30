@@ -32,15 +32,15 @@ def create_log_dir(args):
     log_dir = os.path.join("runs", log_dir)
     return log_dir
 
-def print_log(frame, prev_frame, prev_time, reward_list, length_list, rl_loss_list, sl_loss_list):
+def print_log(frame, prev_frame, prev_time, reward_list, length_list, rl_loss_list, sl_loss_list, player):
     fps = (frame - prev_frame) / (time.time() - prev_time)
     avg_reward = np.mean(reward_list)
     avg_length = np.mean(length_list)
     avg_rl_loss = np.mean(rl_loss_list) if len(rl_loss_list) != 0 else 0.
     avg_sl_loss = np.mean(sl_loss_list) if len(sl_loss_list) != 0 else 0.
 
-    print("Frame: {:<8} FPS: {:.2f} Avg. Reward: {:.2f} Avg. Length: {:.2f} Avg. RL Loss: {:.2f} Avg. SL Loss: {:.2f}".format(
-        frame, fps, avg_reward, avg_length, avg_rl_loss, avg_sl_loss
+    print("Player {} Frame: {:<8} FPS: {:.2f} Avg. Reward: {:.2f} Avg. Length: {:.2f} Avg. RL.SL Loss: {:.2f}/{:.2f}".format(
+        player, frame, fps, avg_reward, avg_length, avg_rl_loss, avg_sl_loss
     ))
 
 def print_args(args):

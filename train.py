@@ -123,7 +123,7 @@ def train(env, args, writer):
         episode_length += 1
 
         # Episode done. Reset environment and clear logging records
-        if done or episode_length > args.max_episode_length:
+        if done or episode_length >= args.max_episode_length:
             (p1_state, p2_state) = env.reset()
             p1_reward_list.append(p1_episode_reward)
             p2_reward_list.append(p2_episode_reward)
@@ -166,8 +166,8 @@ def train(env, args, writer):
 
         # Logging and Saving models
         if frame_idx % args.evaluation_interval == 0:
-            print_log(frame_idx, prev_frame, prev_time, p1_reward_list, length_list, p1_rl_loss_list, p1_sl_loss_list)
-            print_log(frame_idx, prev_frame, prev_time, p2_reward_list, length_list, p2_rl_loss_list, p2_sl_loss_list)
+            print_log(frame_idx, prev_frame, prev_time, p1_reward_list, length_list, p1_rl_loss_list, p1_sl_loss_list, 1)
+            print_log(frame_idx, prev_frame, prev_time, p2_reward_list, length_list, p2_rl_loss_list, p2_sl_loss_list, 2)
             p1_reward_list.clear(), p2_reward_list.clear(), length_list.clear()
             p1_rl_loss_list.clear(), p2_rl_loss_list.clear()
             p1_sl_loss_list.clear(), p2_sl_loss_list.clear()
