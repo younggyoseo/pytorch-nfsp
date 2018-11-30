@@ -64,7 +64,7 @@ def train(env, args, writer):
     p1_reward_list, p1_rl_loss_list, p1_sl_loss_list = [], [], []
     p2_reward_list, p2_rl_loss_list, p2_sl_loss_list = [], [], []
     p1_episode_reward, p2_episode_reward = 0, 0
-    episode_length = 0
+    tag_interval_length = 0
     prev_time = time.time()
     prev_frame = 1
 
@@ -84,7 +84,7 @@ def train(env, args, writer):
             p2_action = p2_current_model.act(torch.FloatTensor(p2_state).to(args.device), epsilon)
 
         actions = {"1": p1_action, "2": p2_action}
-        (p1_next_state, p2_next_state), reward, done, _ = env.step(actions)
+        (p1_next_state, p2_next_state), reward, done, info = env.step(actions)
 
         # Save current state, reward, action to deque for multi-step learning
         p1_state_deque.append(p1_state)
@@ -120,18 +120,21 @@ def train(env, args, writer):
         # Logging
         p1_episode_reward += p1_reward
         p2_episode_reward += p2_reward
-        episode_length += 1
+        tag_interval_length += 1
+
+        if info is not None:
+            length_list.append(tag_interval_length)
+            tag_interval_length = 0
 
         # Episode done. Reset environment and clear logging records
-        if done or episode_length >= args.max_episode_length:
+        if done or tag_interval_length >= args.max_tag_interval:
             (p1_state, p2_state) = env.reset()
             p1_reward_list.append(p1_episode_reward)
             p2_reward_list.append(p2_episode_reward)
-            length_list.append(episode_length)
             writer.add_scalar("p1/episode_reward", p1_episode_reward, frame_idx)
             writer.add_scalar("p2/episode_reward", p2_episode_reward, frame_idx)
-            writer.add_scalar("data/episode_length", episode_length, frame_idx)
-            p1_episode_reward, p2_episode_reward, episode_length = 0, 0, 0
+            writer.add_scalar("data/tag_interval_length", tag_interval_length, frame_idx)
+            p1_episode_reward, p2_episode_reward, tag_interval_length = 0, 0, 0
             p1_state_deque.clear(), p2_state_deque.clear()
             p1_reward_deque.clear(), p2_reward_deque.clear()
             p1_action_deque.clear(), p2_action_deque.clear()
@@ -166,8 +169,8 @@ def train(env, args, writer):
 
         # Logging and Saving models
         if frame_idx % args.evaluation_interval == 0:
-            print_log(frame_idx, prev_frame, prev_time, p1_reward_list, length_list, p1_rl_loss_list, p1_sl_loss_list, 1)
-            print_log(frame_idx, prev_frame, prev_time, p2_reward_list, length_list, p2_rl_loss_list, p2_sl_loss_list, 2)
+            print_log(frame_idx, prev_frame, prev_time, (p1_reward_list, p2_reward_list), length_list,
+                      (p1_rl_loss_list, p2_rl_loss_list), (p1_sl_loss_list, p2_sl_loss_list))
             p1_reward_list.clear(), p2_reward_list.clear(), length_list.clear()
             p1_rl_loss_list.clear(), p2_rl_loss_list.clear()
             p1_sl_loss_list.clear(), p2_sl_loss_list.clear()
