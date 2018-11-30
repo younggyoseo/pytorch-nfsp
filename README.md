@@ -15,7 +15,7 @@ lasertag
 
 `python main.py --env 'LaserTag-small2-v0' --render` if you want to watch rendered game on screen.
 
-`python main.py --env 'LaserTag-small2-v0' --render --evaluate` if you want to evaluate/enjoy the model which is already trained.
+`python main.py --env 'LaserTag-small2-v0' --render --evaluate` if you want to evaluate/enjoy the model which is already trained. I included `models/LaserTag-small*-v0-dqn-model.pth` so you can see how trained agents play against each other.
 
 For more details, See `arguments.py`
 
