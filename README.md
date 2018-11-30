@@ -19,7 +19,13 @@ lasertag
 
 For more details, See `arguments.py`
 
-# LaserTag-small2-v0
-![example.gif](figs/example.gif)
+## LaserTag-small2-v0
+![small2.gif](figs/small2.gif)
 
-This gif is captured while training is in early stage for illustration purpose. Agent get a unit reward for tagging other player with laser.
+## LaserTag-small3-v0
+![small3.gif](figs/small3.gif)
+
+## LaserTag-small4-v0
+![small4.gif](figs/small4.gif)
+
+Agents are trained with NFSP. Agents get a unit reward for touching other agent with laser beam. If an agent is hit twice then that agent will be sent to random respawn place. An episode consists of 1000 frames.
